@@ -1,15 +1,15 @@
-const cells = document.querySelectorAll(".cell")
-const status = document.getElementById("status")
-const resetbtn = document.getElementById("reset")
+const cells = document.querySelectorAll(".cell");
+const statusText = document.getElementById("status");
+const resetBtn = document.getElementById("reset");
 
-let currentPlayer = "X"
-let board = ["", "", "", "", "", "", "", "", ""]
+let currentPlayer = "X";
+let board = ["", "", "", "", "", "", "", "", ""];
 let gameActive = true;
 
 const winningCombos = [
-  [0, 1, 2], [3, 4, 5], [6, 7, 8],
-  [0, 3, 5], [1, 4, 7], [2, 5, 8],
-  [0, 4, 8], [2, 4, 6]
+  [0,1,2], [3,4,5], [6,7,8], // rows
+  [0,3,6], [1,4,7], [2,5,8], // cols
+  [0,4,8], [2,4,6]           // diagonals
 ];
 
 function handleClick(e) {
@@ -17,18 +17,18 @@ function handleClick(e) {
   if (board[index] !== "" || !gameActive) return;
 
   board[index] = currentPlayer;
-  e.textContent = currentPlayer;
+  e.target.textContent = currentPlayer;
   e.target.classList.add("taken");
 
   if (checkWin()) {
-    statusText.textContent = `Player ${currentPlayer} wins!`
-    gameActive = False;
+    statusText.textContent = `Player ${currentPlayer} wins! 🎉`;
+    gameActive = false;
   } else if (board.every(cell => cell !== "")) {
-    statusText.textContent = "Its a Draw!";
-    gameActive = False;
+    statusText.textContent = "It's a draw!";
+    gameActive = false;
   } else {
     currentPlayer = currentPlayer === "X" ? "O" : "X";
-    statusText.textContent = `Player ${currentPlayer}'s turn!`;
+    statusText.textContent = `Player ${currentPlayer}'s turn`;
   }
 }
 
@@ -42,14 +42,12 @@ function resetGame() {
   board = ["", "", "", "", "", "", "", "", ""];
   gameActive = true;
   currentPlayer = "X";
-  statusText.textContent = "Player X's turn";
+  statusText.textContent = `Player X's turn`;
   cells.forEach(cell => {
     cell.textContent = "";
     cell.classList.remove("taken");
   });
 }
 
-cells.forEach(cell => cell.addEventListener("click", handleClick);
+cells.forEach(cell => cell.addEventListener("click", handleClick));
 resetBtn.addEventListener("click", resetGame);
- 
-    
